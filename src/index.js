@@ -8,21 +8,29 @@ const Button = (props) => (
 )
 
 const Stat = (props) => (
-  <div>
-    {props.text}: {props.value}
-  </div>
+  <tr>
+    <td>{props.text}</td>
+    <td>{props.value}</td>
+  </tr>
 )
 
-const Statistics = (props) => (
-  <div>
-    <Stat text='good' value={props.good} />
-    <Stat text='neutral' value={props.neutral} />
-    <Stat text='bad' value={props.bad} />
-    <Stat text='all' value={props.bad + props.neutral + props.good} />
-    <Stat text='average' value={(props.good - props.bad) / (props.bad + props.neutral + props.good)} />
-    <Stat text='positive' value={(props.good) / (props.bad + props.neutral + props.good)} />
-  </div>
-)
+const Statistics = (props) => {
+  if ((props.good + props.bad + props.neutral) === 0) {
+    return (<div>No feedback given</div>)
+  }
+  else {
+    return (
+      <table>
+        <Stat text='good' value={props.good} />
+        <Stat text='neutral' value={props.neutral} />
+        <Stat text='bad' value={props.bad} />
+        <Stat text='all' value={props.bad + props.neutral + props.good} />
+        <Stat text='average' value={(props.good - props.bad) / (props.bad + props.neutral + props.good)} />
+        <Stat text='positive' value={(props.good) / (props.bad + props.neutral + props.good)} />
+      </table>
+    );
+  }
+}
 
 const App = () => {
   // save clicks of each button to own state
