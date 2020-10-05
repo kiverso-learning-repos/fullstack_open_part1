@@ -1,17 +1,53 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React, { useState } from 'react'
+import ReactDOM from 'react-dom'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+const Button = (props) => (
+  <button onClick={props.handleClick}>
+    {props.text}
+  </button>
+)
+
+const Stat = (props) => (
+  <div>
+    {props.text}: {props.value}
+  </div>
+)
+
+const Statistics = (props) => (
+  <div>
+    <Stat text='good' value={props.good} />
+    <Stat text='neutral' value={props.neutral} />
+    <Stat text='bad' value={props.bad} />
+    <Stat text='all' value={props.bad + props.neutral + props.good} />
+    <Stat text='average' value={(props.good - props.bad) / (props.bad + props.neutral + props.good)} />
+    <Stat text='positive' value={(props.good) / (props.bad + props.neutral + props.good)} />
+  </div>
+)
+
+const App = () => {
+  // save clicks of each button to own state
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
+
+  return (
+    <div>
+      <h2>give feedback</h2>
+      <Button
+        handleClick={() => setGood(good + 1)} text = 'good'
+      />
+      <Button
+        handleClick={() => setNeutral(neutral + 1)} text = 'neutral'
+      />
+      <Button
+        handleClick={() => setBad(bad + 1)} text = 'bad'
+      />
+      <h2>Statistics</h2>
+      <Statistics good={good} neutral={neutral} bad={bad}/>
+    </div>
+  )
+}
+
+ReactDOM.render(<App />,
   document.getElementById('root')
-);
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+)
